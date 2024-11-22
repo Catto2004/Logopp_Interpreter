@@ -96,7 +96,6 @@ class CalcularArbol(Transformer):
 # Mostrar mensaje de bienvenida
 os.system("cls" if os.name == "nt" else "clear")
 print(MensajeInterprete)
-print(Creditos)
 
 # Crear parser con transformador
 parser = Lark(LogoPP, parser="lalr")
@@ -127,6 +126,7 @@ def convertir_archivo(input_file, output_file):
 
             # Finalizar con el mainloop de turtle
             outfile.write("\nturtle.mainloop()\n")
+            outfile.write("\n" + Creditos)
 
         print(f"Archivo convertido y guardado en: {output_file}")
     except Exception as e:
