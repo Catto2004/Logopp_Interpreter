@@ -2,74 +2,146 @@ from lark import Lark, Transformer
 import sys
 import os
 
-# Gramática corregida
-LogoPP = r"""
-    start: line+
+# Creditos
+Creditos = """ \033[93m
+#          ^~^  ,      
+#         ('Y') )     \033[0;37m This code was generated using the Logo++ Interpreter \033[93m
+#         /   \/      \033[0;37m by [Catto] Juan Diego Ruiz B && Juan Camilo Marin H. \033[93m
+#        (\|||/)      \033[0;37m Under MIT License. \033[93m
+\033[0m"""
 
-    line: boolean
-        | _NL
 
-    ?boolean:     BOOL                  -> boolValue
-                | boolean "AND" boolean -> andOperation
-                | boolean "OR" boolean  -> orOperation
-                | "NOT" boolean         -> notOperation
-
-    BOOL: "TRUE" | "FALSE"
-    _NL: /(\r?\n)+/
-    %ignore _NL                          // Ignorar saltos de línea entre instrucciones
-    %ignore /[ \t]+/                     // Ignorar espacios y tabulaciones
+# Mensaje de bienvenida
+MensajeInterprete = """
+    \033[37;1m Logo++ Interpreter \033[0m
 """
 
-# Transformador
-class CalcularArbol(Transformer):
-    def boolValue(self, args):
-        return args[0] == "TRUE"  # Devuelve True o False según el valor
+# Gato ASCII
+Gato = """ \033[93m
+#          ^~^  ,
+#         ('Y') )
+#         /   \/
+#        (\|||/)
+\033[0m"""
 
-    def andOperation(self, args):
-        return f"({args[0]} and {args[1]})"
+# Gramática
+LogoPP = r"""
+    start: instruction+
 
-    def orOperation(self, args):
-        return f"({args[0]} or {args[1]})"
+    ?instruction: basic
+                | math    
 
-    def notOperation(self, args):
-        return f"(not {args[0]})"
+    ?basic:       "FD" INTNUM -> fd
+                | "BK" INTNUM -> bk
+                | "LT" INTNUM -> lt
+                | "RT" INTNUM -> rt
+                | "PU"        -> pu
+                | "PD"        -> pd
+                | "WT" INTNUM -> wt
 
-# Procesar líneas del archivo
-def procesar_lineas(input_file):
-    try:
-        with open(input_file, 'r') as infile:
-            lineas = infile.readlines()
-            print("Contenido del archivo línea por línea:")
-            for idx, linea in enumerate(lineas):
-                print(f"{idx + 1}: {repr(linea.strip())}")
-            return lineas
-    except FileNotFoundError:
-        print(f"Error: El archivo '{input_file}' no existe.")
-        sys.exit(1)
-
-# Parsear cada línea
-def parsear_lineas(lineas):
-    for idx, linea in enumerate(lineas):
-        try:
-            print(f"\nProcesando línea {idx + 1}: {repr(linea.strip())}")
-            if linea.strip():  # Ignorar líneas vacías
-                arbol = parser.parse(linea.strip())
-                print(arbol.pretty())
-        except Exception as e:
-            print(f"Error en línea {idx + 1}: {e}")
-
-# Main
-if __name__ == "__main__":
-    os.system("cls" if os.name == "nt" else "clear")
-    print("\033[37;1m Logo++ Interpreter \033[0m")
-
-    if len(sys.argv) != 2:
-        print("Uso: python interprete.py archivo.lpp")
-        sys.exit(1)
+    ?math:        math "+" term -> add
+                | math "-" term -> sub
+                | term
     
-    input_file = sys.argv[1]
-    lineas = procesar_lineas(input_file)
+    ?term:        term "*" factor -> mul
+                | term "/" factor -> div
+                | factor
 
-    # Crear parser y transformador
-    parser = Lark(LogoPP, parser="lalr", transformer=CalcularArbol())
-    parsear_lineas(lineas)
+    ?factor:      INTNUM
+                | "-" factor -> neg
+                | "(" math ")"
+
+    INTNUM: /-?\d+(\.\d+)?([eE][+-]?\d+)?/x
+    %ignore /[ \t\n\f\r]+/x
+"""
+
+# Arbol de gramatica
+class CalcularArbol(Transformer):
+
+    # Definicion de las instrucciones basicas
+    def fd(self, INTNUM):
+        return f"t.fd({INTNUM[0]})"
+    def bk(self, INTNUM):
+        return f"t.bk({INTNUM[0]})"
+    def lt(self, INTNUM):
+        return f"t.lt({INTNUM[0]})"
+    def rt(self, INTNUM):
+        return f"t.rt({INTNUM[0]})"
+    def pu(self):
+        return "t.pu()"
+    def pd(self):
+        return "t.pd()"
+    def wt(self, INTNUM):
+        return f"t.width({INTNUM[0]})"
+
+    # Definicion de las operaciones aritmeticas
+    def add(self, args):
+        return f"{args[0]} + {args[1]}"
+    def sub(self, args):
+        return f"{args[0]} - {args[1]}"
+    def mul(self, args):
+        return f"{args[0]} * {args[1]}"
+    def div(self, args):
+        return f"{args[0]} / {args[1]}"
+      
+    # Manejo de datos
+    def INTNUM(self, value):        # Enteros
+        return int(value)
+    
+    # Manejo de opereaciones aritmeticas
+
+# ignorar v
+
+#                | loop
+#                | function
+#                | call
+
+# ############################## Ejecución del programa ##############################
+# Mostrar mensaje de bienvenida
+os.system("cls" if os.name == "nt" else "clear")
+print(MensajeInterprete)
+
+# Crear parser con transformador
+parser = Lark(LogoPP, parser="lalr")
+
+# Función principal para procesar archivos
+def convertir_archivo(input_file, output_file):
+    try:
+        # Leer el archivo de entrada
+        with open(input_file, 'r') as infile:
+            contenido = infile.read().strip()  # Limpia la entrada
+
+        # Parsear el contenido
+        arbol = parser.parse(contenido)
+
+        # Aplicar el transformador para convertir el AST a instrucciones
+        transformador = CalcularArbol()
+        codigo_transformado = transformador.transform(arbol)
+
+        # Guardar el resultado en un archivo .py
+        with open(output_file, 'w') as outfile:
+            # Escribir el código inicial para usar turtle
+            outfile.write("import turtle\n")
+            outfile.write("t = turtle.Turtle()\n\n")
+
+            # Escribir las instrucciones transformadas
+            for linea in codigo_transformado.children:
+                outfile.write(linea + '\n')
+
+            # Finalizar con el mainloop de turtle
+            outfile.write("\nturtle.mainloop()\n")
+            outfile.write("\n" + Creditos)
+
+        print(f"Archivo convertido y guardado en: {output_file}")
+    except Exception as e:
+        print(f"Error al parsear el archivo: {e}")
+
+# Leer los argumentos de la línea de comandos
+if len(sys.argv) != 2:
+    print("Uso: python interprete.py archivo.lpp")
+else:
+    input_file = sys.argv[1]
+    output_file = "Out" + input_file.replace('.lpp', '.py')
+
+    # Convertir el archivo
+    convertir_archivo(input_file, output_file)
