@@ -1,1 +1,16 @@
+# Este es mi primer Comentario
+MiVariable = 100
+OtraVariable = 50
+FD (MiVariable + OtraVariable)
+LT (MiVariable * 2)
+PU
+PD
+WT 10
 FD 100
+
+DEF MiFuncion(x, y) {
+    FD (x + y)
+    LT x
+}
+
+MiFuncion(10, 20)
