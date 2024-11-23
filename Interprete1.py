@@ -18,10 +18,10 @@ MensajeInterprete = """
 
 # Gato ASCII
 Gato = """ \033[93m
-#          ^~^  ,
-#         ('Y') )
-#         /   \/
-#        (\|||/)
+          ^~^  ,
+         ('Y') )
+         /   \/
+        (\|||/)
 \033[0m"""
 
 # Gramática
@@ -44,7 +44,7 @@ LogoPP = r"""
     ?math:        math "+" term -> add
                 | math "-" term -> sub
                 | term
-    
+
     ?term:        term "*" factor -> mul
                 | term "/" factor -> div
                 | factor
@@ -56,7 +56,7 @@ LogoPP = r"""
     ?boolean:     BOOL                  -> boolValue
                 | boolean "AND" boolean -> andOperation
                 | boolean "OR" boolean  -> orOperation
-                | "NOT" boolean         -> notOperation
+                | "CNOT" boolean         -> notOperation
 
     BOOL: "TRUE" | "FALSE"
     INTNUM: /-?\d+(\.\d+)?([eE][+-]?\d+)?/x
@@ -79,6 +79,8 @@ class CalcularArbol(Transformer):
         return "t.pu()"
     def pd(self):
         return "t.pd()"
+    def wt(self, INTNUM):
+        return f"t.width({INTNUM[0]})"
 
     # Definicion de las operaciones aritmeticas
     def add(self, args):
@@ -89,6 +91,8 @@ class CalcularArbol(Transformer):
         return f"{args[0]} * {args[1]}"
     def div(self, args):
         return f"{args[0]} / {args[1]}"
+    def neg(self, args):
+        return f"-{args[0]}"
     
     # Definicion de las operaciones Logicas/Booleanas
     def andOperation(self, args):
@@ -97,8 +101,6 @@ class CalcularArbol(Transformer):
         return f"({args[0]} or {args[1]})"
     def notOperation(self, args):
         return f"(not {args[0]})"
-    def wt(self, INTNUM):
-        return f"t.width({INTNUM[0]})"
     
     # Manejo de datos
     def INTNUM(self, value):        # Enteros
@@ -106,7 +108,6 @@ class CalcularArbol(Transformer):
     def bool_value(self, args):     # Booleanos
         return args[0] == "TRUE"
     
-    # Manejo de opereaciones aritmeticas
 
 # ignorar v
 
