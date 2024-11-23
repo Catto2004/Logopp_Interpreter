@@ -30,7 +30,8 @@ LogoPP = r"""
 
     ?instruction: basic
                 | control
-                | boolean     
+                | boolean
+                | math    
 
     ?basic:       "FD" INTNUM -> fd
                 | "BK" INTNUM -> bk
@@ -39,6 +40,18 @@ LogoPP = r"""
                 | "PU"        -> pu
                 | "PD"        -> pd
                 | "WT" INTNUM -> wt
+
+    ?math:        math "+" term -> add
+                | math "-" term -> sub
+                | term
+    
+    ?term:        term "*" factor -> mul
+                | term "/" factor -> div
+                | factor
+
+    ?factor:      INTNUM
+                | "-" factor -> neg
+                | "(" math ")"
 
     ?boolean:     BOOL                  -> boolValue
                 | boolean "AND" boolean -> andOperation
@@ -66,15 +79,24 @@ class CalcularArbol(Transformer):
         return "t.pu()"
     def pd(self):
         return "t.pd()"
+
+    # Definicion de las operaciones aritmeticas
+    def add(self, args):
+        return f"{args[0]} + {args[1]}"
+    def sub(self, args):
+        return f"{args[0]} - {args[1]}"
+    def mul(self, args):
+        return f"{args[0]} * {args[1]}"
+    def div(self, args):
+        return f"{args[0]} / {args[1]}"
     
     # Definicion de las operaciones Logicas/Booleanas
-    def and_op(self, args):
-        return args[0] and args  
-    def or_op(self, args):
-        return args[0] or args
-    def not_op(self, args):
-        return not args
-
+    def andOperation(self, args):
+        return f"({args[0]} and {args[1]})"
+    def orOperation(self, args):
+        return f"({args[0]} or {args[1]})"
+    def notOperation(self, args):
+        return f"(not {args[0]})"
     def wt(self, INTNUM):
         return f"t.width({INTNUM[0]})"
     
