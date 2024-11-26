@@ -1,19 +1,28 @@
 import turtle
 t = turtle.Turtle()
 
-
-
-t.fd((100 + 50))
-t.lt((100 * 2))
-t.pu()
-t.pd()
-t.width(10)
+Variable1 = 100
+Variable2 = 500
+AnguloRotacion = 90
+Variable3 = ((100 + 500) / 2)
+Variable1 += 1
+Variable2 -= 1
+Variable4 = 10
+Variable4 += 30
+Variable4 -= 30
+Variable1 = (((499 * ((100 + 500) / 2)) / 10) + 1)
+t.fd((((499 * ((100 + 500) / 2)) / 10) + 1))
+t.lt(90)
+t.fd((499 / 2))
+t.lt((-90))
 t.fd(100)
+t.rt(90)
+t.fd((499 - (((499 * ((100 + 500) / 2)) / 10) + 1)))
 
 turtle.mainloop()
 
 
-#          ^~^  ,      
-#         ('Y') )      This code was generated using the Logo++ Interpreter
-#         /   \/       by [Catto] Juan Diego Ruiz B && Juan Camilo Marin H. 
-#        (\|||/)       Under MIT License. 
+#          ^~^  ,      This code was generated using the Logo++ Interpreter
+#         ('Y') )      by [Catto] Juan Diego Ruiz B, Juan Camilo Marin H. && Luisa Lopez.
+#         /   \/       special thanks to: DMG.
+#        (\|||/)       >> This code is under MIT License. <<

@@ -1,16 +1,29 @@
-# Este es mi primer Comentario
-MiVariable = 100
-OtraVariable = 50
-FD (MiVariable + OtraVariable)
-LT (MiVariable * 2)
-PU
-PD
-WT 10
+# Hola, esto es un comentario
+# Este codigo es una prueba, contiene pruebas de math, sugar, VARIABLE y basic
+
+Variable1 = 100
+Variable2 = 500
+AnguloRotacion = 90
+
+Variable3 = ((Variable1 + Variable2) / 2)
+
+Variable1++
+Variable2--
+
+Variable4 = 10
+Variable4 += 30
+Variable4 -= 30
+
+# Esto es otro comentario Variable2
+
+Variable1 = ((Variable2 * Variable3) / Variable4) + 1
+
+# Variable2 = ((Variable1 * Variable4) / Variable2) + 1
+
+FD Variable1
+LT AnguloRotacion
+FD (Variable2 / 2)
+LT -(AnguloRotacion)
 FD 100
-
-DEF MiFuncion(x, y) {
-    FD (x + y)
-    LT x
-}
-
-MiFuncion(10, 20)
+RT 90
+FD (Variable2 - Variable1)
