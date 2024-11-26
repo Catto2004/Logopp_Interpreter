@@ -26,7 +26,7 @@ arbolpng = True  # Si se desea guardar el árbol sintáctico como imagen PNG
 Creditos = """
 #          ^~^  ,      This code was generated using the Logo++ Interpreter
 #         ('Y') )      by [Catto] Juan Diego Ruiz B, Juan Camilo Marin H. && Luisa Lopez.
-#         /   \/       special thanks to: DMG.
+#         /   \/       special thanks to: Mochi.
 #        (\|||/)       >> This code is under MIT License. <<
 """
 # Mensaje de bienvenida
