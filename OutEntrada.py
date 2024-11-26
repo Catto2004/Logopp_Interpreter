@@ -24,5 +24,5 @@ turtle.mainloop()
 
 #          ^~^  ,      This code was generated using the Logo++ Interpreter
 #         ('Y') )      by [Catto] Juan Diego Ruiz B, Juan Camilo Marin H. && Luisa Lopez.
-#         /   \/       special thanks to: DMG.
+#         /   \/       special thanks to: Mochi.
 #        (\|||/)       >> This code is under MIT License. <<

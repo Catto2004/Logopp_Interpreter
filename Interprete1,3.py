@@ -3,9 +3,10 @@ import sys
 import os
 
 # Cambiar a elección.
-sinarboles = True  # Si se desea graficar el árbol sintáctico
+sinarboles = False  # Si se desea graficar el árbol sintáctico
 arboldot = True  # Si se desea guardar el árbol sintáctico como archivo DOT
 arbolpng = True  # Si se desea guardar el árbol sintáctico como imagen PNG
+arbolcmd = False  # Si se desea mostrar el árbol sintáctico en la consola
 
 # To-Do:
 # Ya implementado:
@@ -179,8 +180,9 @@ def procesar_ast(arbol):
     if not sinarboles:
         try:
             # Imprimir el AST en la consola
-            print("\033[1;34mÁrbol Sintáctico:\033[0m")
-            print(arbol.pretty())
+            if arbolcmd:
+                print("\033[1;34mÁrbol Sintáctico:\033[0m")
+                print(arbol.pretty())
 
             # Guardar el AST como imagen y archivo DOT
             if arbolpng:
