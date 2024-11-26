@@ -1,9 +1,18 @@
-from lark import Lark, Transformer
+from lark import Lark, Transformer, tree
 import sys
 import os
 
+# Cambiar a elección.
+sinarboles = True  # Si se desea graficar el árbol sintáctico
+arboldot = True  # Si se desea guardar el árbol sintáctico como archivo DOT
+arbolpng = True  # Si se desea guardar el árbol sintáctico como imagen PNG
 
 # To-Do:
+# Ya implementado:
+#                | basic
+#                | sugar
+#                | math
+#                | Variables
 # Aún no implementado:
 #                | bool
 #                | control
@@ -165,6 +174,33 @@ class CalcularArbol(Transformer):
 
 
 # ############################## Procesamiento de Archivos ##############################
+# Graficador de arboles
+def procesar_ast(arbol):
+    if not sinarboles:
+        try:
+            # Imprimir el AST en la consola
+            print("\033[1;34mÁrbol Sintáctico:\033[0m")
+            print(arbol.pretty())
+
+            # Guardar el AST como imagen y archivo DOT
+            if arbolpng:
+                tree.pydot__tree_to_png(arbol, "tree.png")  # Guarda como imagen PNG
+            else:
+                print("\033[1;33mEl árbol sintáctico en PNG no se mostrará.\033[0m")
+            if arboldot:
+                tree.pydot__tree_to_dot(arbol, "tree.dot", rankdir="TD")  # Guarda como archivo DOT
+            else:
+                print("\033[1;33mEl árbol sintáctico en DOT no se creará.\033[0m")
+            if arbolpng or arboldot:
+                print("\033[1;32mAST visual guardado como 'tree.png' y 'tree.dot'.\033[0m")
+            else:
+                print("\033[1;33mRevisar la configuración\033[0")
+
+        except Exception as e:
+            print(f"Error al procesar el AST: {e}")
+    else:
+        print("\033[1;33mNo se va a guardar ningún arbol.\033[0m")
+
 # Función principal para procesar archivos
 def convertir_archivo(input_file, output_file):
     try:
@@ -174,6 +210,9 @@ def convertir_archivo(input_file, output_file):
 
         # Parsear el contenido
         arbol = parser.parse(contenido)
+
+        # Procesar el AST para graficar
+        procesar_ast(arbol)
 
         # Aplicar el transformador para convertir el AST a instrucciones
         transformador = CalcularArbol()
