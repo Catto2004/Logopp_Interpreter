@@ -1,11 +1,22 @@
-from lark import Lark, Transformer
+from lark import Lark, Transformer, tree
 import sys
 import os
 
+# Cambiar a elección.
+sinarboles = False  # Si se desea graficar el árbol sintáctico
+arboldot = True  # Si se desea guardar el árbol sintáctico como archivo DOT
+arbolpng = True  # Si se desea guardar el árbol sintáctico como imagen PNG
+arbolcmd = False  # Si se desea mostrar el árbol sintáctico en la consola
 
 # To-Do:
+# Ya implementado:
+#                | basic
+#                | sugar
+#                | math
+#                | Variables
+#                > Arboles PNG y DOT
 # Aún no implementado:
-#           ...  | bool
+#                | bool
 #                | control
 #                | loop
 #            x   | function, Demasiado complicado, preguntar???
@@ -17,13 +28,12 @@ import os
 Creditos = """
 #          ^~^  ,      This code was generated using the Logo++ Interpreter
 #         ('Y') )      by [Catto] Juan Diego Ruiz B, Juan Camilo Marin H. && Luisa Lopez.
-#         /   \/       special thanks to: DMG.
+#         /   \/       special thanks to: Mochi.
 #        (\|||/)       >> This code is under MIT License. <<
 """
 # Mensaje de bienvenida
 MensajeInterprete = """
            \033[37;1m Logo++ Interpreter \033[0m
-             Boolean Version
 """
 # Gato para mensaje
 Gato = """0======v================================0
@@ -40,19 +50,7 @@ LogoPP = r"""
 
     ?instruction: basic
                 | VARIABLE "=" math -> assign
-                | bool
                 | sugar
-                | function
-                | call
-
-    ?bool:        bool "/\\" bool -> andOper
-                | bool "\\/" bool -> orOper
-                | "!" bool       -> notOper
-                | "(" bool ")"
-                | atom
-
-    ?atom:        "TRUE" -> true
-                | "FALSE" -> false
 
     ?basic:       "FD" math -> fd
                 | "BK" math -> bk
@@ -77,11 +75,10 @@ LogoPP = r"""
 
     ?factor:      INTNUM
                 | VARIABLE -> var
-                | "-" factor -> negs
+                | "-" factor -> neg
                 | "(" math ")"
 
     %ignore /#[^\n]*/
-    %ignore /\n/
     VARIABLE: /[a-zA-Z_][a-zA-Z0-9_]*/
     INTNUM: /-?\d+(\.\d+)?([eE][+-]?\d+)?/x
     %ignore /[ \t\n\f\r]+/x
@@ -109,18 +106,6 @@ class CalcularArbol(Transformer):
         return "t.pd()"
     def wt(self, args):
         return f"t.width({args[0]})"
-    
-    ############### Operaciones booleanas
-    def andOper(self, args):
-        return f"({args[0]} and {args[1]})"
-    def orOper(self, args):
-        return f"({args[0]} or {args[1]})"
-    def notOper(self, args):
-        return f"(not {args[0]})"
-    def true(self, _):
-        return True
-    def false(self, _):
-        return False
     
     ############### Azucar sintáctica
     def increment(self, args):
@@ -191,6 +176,34 @@ class CalcularArbol(Transformer):
 
 
 # ############################## Procesamiento de Archivos ##############################
+# Graficador de arboles
+def procesar_ast(arbol):
+    if not sinarboles:
+        try:
+            # Imprimir el AST en la consola
+            if arbolcmd:
+                print("\033[1;34mÁrbol Sintáctico:\033[0m")
+                print(arbol.pretty())
+
+            # Guardar el AST como imagen y archivo DOT
+            if arbolpng:
+                tree.pydot__tree_to_png(arbol, "tree.png")  # Guarda como imagen PNG
+            else:
+                print("\033[1;33mEl árbol sintáctico en PNG no se mostrará.\033[0m")
+            if arboldot:
+                tree.pydot__tree_to_dot(arbol, "tree.dot", rankdir="TD")  # Guarda como archivo DOT
+            else:
+                print("\033[1;33mEl árbol sintáctico en DOT no se creará.\033[0m")
+            if arbolpng or arboldot:
+                print("\033[1;32mAST visual guardado como 'tree.png' y 'tree.dot'.\033[0m")
+            else:
+                print("\033[1;33mRevisar la configuración\033[0")
+
+        except Exception as e:
+            print(f"Error al procesar el AST: {e}")
+    else:
+        print("\033[1;33mNo se va a guardar ningún arbol.\033[0m")
+
 # Función principal para procesar archivos
 def convertir_archivo(input_file, output_file):
     try:
@@ -200,6 +213,9 @@ def convertir_archivo(input_file, output_file):
 
         # Parsear el contenido
         arbol = parser.parse(contenido)
+
+        # Procesar el AST para graficar
+        procesar_ast(arbol)
 
         # Aplicar el transformador para convertir el AST a instrucciones
         transformador = CalcularArbol()
