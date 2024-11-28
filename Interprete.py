@@ -4,23 +4,9 @@ import os
 
 # Cambiar a elección.
 sinarboles = False  # Si se desea graficar el árbol sintáctico
-arboldot = True  # Si se desea guardar el árbol sintáctico como archivo DOT
-arbolpng = True  # Si se desea guardar el árbol sintáctico como imagen PNG
-arbolcmd = False  # Si se desea mostrar el árbol sintáctico en la consola
-
-# To-Do:
-# Ya implementado:
-#                | basic
-#                | sugar
-#                | math
-#                | Variables
-# Aún no implementado:
-#                | bool
-#                | control
-#                | loop
-#            x   | function, Demasiado complicado, preguntar???
-#            x   | call, Demasiado complicado
-
+arboldot = True     # Si se desea guardar el árbol sintáctico como archivo DOT
+arbolpng = True     # Si se desea guardar el árbol sintáctico como imagen PNG
+arbolcmd = False    # Si se desea mostrar el árbol sintáctico en la consola
 
 # ############################## Mensajes ##############################
 # Creditos

@@ -5,24 +5,9 @@ import os
 # Cambiar a elección.
 class Config:
     SinArboles = False  # Si se desea graficar el árbol sintáctico
-    Arboldot = True  # Si se desea guardar el árbol sintáctico como archivo DOT
-    Arbolpng = True  # Si se desea guardar el árbol sintáctico como imagen PNG
-    Arbolcmd = False  # Si se desea mostrar el árbol sintáctico
-
-# To-Do:
-# Ya implementado:
-#                | basic
-#                | sugar
-#                | math
-#                | Variables
-#                | function
-#                | call
-#                | bool
-#                | control
-#                | loop
-#                > Arboles PNG y DOT
-# Aún no implementado:
-
+    Arboldot = True     # Si se desea guardar el árbol sintáctico como archivo DOT
+    Arbolpng = True     # Si se desea guardar el árbol sintáctico como imagen PNG
+    Arbolcmd = False    # Si se desea mostrar el árbol sintáctico
 
 
 # ############################## Mensajes ##############################
