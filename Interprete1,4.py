@@ -37,6 +37,7 @@ class Mensajes:
     # Mensaje de bienvenida
     MensajeInterprete = """
            \033[37;1m Logo++ Interpreter \033[0m
+            Versión Beta 1.4.0
     """
     # Gato para mensaje
     Gato = """0======v================================0
@@ -97,7 +98,7 @@ LogoPP = r"""
 
     ?control:     "IF" bool "{" instruction+ "}" -> ifOper
 
-    ?loop:        "FOR" VARIABLE "IN" "RANGE(" VARIABLE ")" "{" instruction+ "}"                      -> forOper
+    ?loop:        "FOR" VARIABLE "IN" "RANGE(" VARIABLE ")" "{" instruction+ "}"         -> forOper
                 | "FOR" VARIABLE "," VARIABLE "IN" "ZIP(" "RANGE(" INTNUM "," INTNUM "," INTNUM ")" "," "RANGE(" INTNUM "," INTNUM "," INTNUM ")" ")" "{" instruction+ "}" -> forforOper
 
     UNEXPECTED: /.+/

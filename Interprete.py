@@ -33,6 +33,7 @@ Creditos = """
 # Mensaje de bienvenida
 MensajeInterprete = """
            \033[37;1m Logo++ Interpreter \033[0m
+          Versión Estable 1.3.0
 """
 # Gato para mensaje
 Gato = """0======v================================0
