@@ -23,8 +23,9 @@ Para ejecutar este intérprete, es necesario contar con:
 
 1. **Python** en su **versión 3.8 o superior**.
 2. Las siguientes bibliotecas, que pueden instalarse mediante `pip`:
-   ```bash
+```bash
    pip install lark-parser pydot
+```
 Opcionalmente, para la visualización de árboles `.dot`, se requiere instalar Graphviz:
 En sistemas Debian/Ubuntu:
 ```bash
