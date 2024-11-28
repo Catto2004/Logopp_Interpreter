@@ -21,32 +21,44 @@ Este intérprete ofrece las siguientes funcionalidades:
 
 Para ejecutar este intérprete, es necesario contar con:
 
-1. **Python** en su versión 3.8 o superior.
+1. **Python** en su **versión 3.8 o superior**.
 2. Las siguientes bibliotecas, que pueden instalarse mediante `pip`:
    ```bash
    pip install lark-parser pydot
-Opcionalmente, para la visualización de árboles .dot, se requiere instalar Graphviz:
+Opcionalmente, para la visualización de árboles `.dot`, se requiere instalar Graphviz:
 En sistemas Debian/Ubuntu:
-sudo apt-get install graphviz
+```bash
+   sudo apt-get install graphviz
+```
 En sistemas Windows:
-choco install graphviz
-Instalación
+```bash
+   winget install graphviz
+```
+
+---
+
+## Instalación
 Para instalar y ejecutar el proyecto, siga las siguientes instrucciones:
+### Clonar el repositorio en su máquina local:
+```bash
+   git clone https://github.com/Catto2004/Logopp_Interpreter
+   cd <carpeta-del-repositorio>
+```
+### Instalar las dependencias necesarias:
+```bash
+   pip install -r requirements.txt
+```
+Ejecutar el intérprete, proporcionando un archivo de entrada con extensión `.lpp`:
+```bash
+   python interprete.py archivo.lpp
+```
 
-Clonar el repositorio en su máquina local:
+---
 
-git clone <URL-del-repositorio>
-cd <carpeta-del-repositorio>
-Instalar las dependencias necesarias:
-
-pip install -r requirements.txt
-Ejecutar el intérprete, proporcionando un archivo de entrada con extensión .lpp:
-
-python interprete.py archivo.lpp
-Uso del intérprete
-El intérprete procesa un archivo .lpp como entrada y genera un archivo Python ejecutable con instrucciones Turtle.
-
-Ejemplo de entrada (archivo.lpp):
+## Uso del intérprete
+El intérprete procesa un archivo `.lpp` como entrada y genera un archivo Python ejecutable con instrucciones Turtle.
+Ejemplo de entrada `archivo.lpp`:
+```logo++
 DEF miFuncion(x) {
     FD x
     RT 90
@@ -57,8 +69,12 @@ FOR i IN RANGE(0, 4) {
     LT 90
     FD 100
 }
-Conjunto de instrucciones soportadas:
-Instrucciones básicas:
+```
+
+---
+
+## Conjunto de instrucciones soportadas:
+### Instrucciones básicas:
 
 FD <valor>: Avanza la pluma.
 BK <valor>: Retrocede la pluma.
@@ -70,43 +86,60 @@ WT <valor>: Modifica el grosor de la pluma.
 Control de flujo:
 
 IF <condición> { ... }
+ELSE { ... }
+ELIF <condición> { ... }
 FOR <variable> IN RANGE(<inicio>, <fin>, <paso>) { ... }
 
-Definición y llamado de funciones:
+### Definición y llamado de funciones:
+```logo++
 DEF miFuncion(x) {
     FD x
     RT 90
 }
 miFuncion(50)
+```
 
-Salida generada:
+---
+
+## Salida generada:
 El intérprete produce un archivo Python con el prefijo Out y el nombre del archivo de entrada, el cual puede ejecutarse directamente para visualizar el resultado en Turtle Graphics.
 
-Configuración
-Es posible personalizar el comportamiento del intérprete mediante la clase Config:
+---
 
+## Configuración:
+Es posible personalizar el comportamiento del intérprete mediante la clase `Config`:
+```Python
 class Config:
     SinArboles = False  # Desactiva la visualización del árbol sintáctico.
     Arboldot = True      # Genera un archivo .dot del árbol.
     Arbolpng = True      # Genera una imagen .png del árbol.
     Arbolcmd = False     # Muestra el árbol en la consola.
-Resolución de problemas
-Error al cargar la gramática:
+```
 
-Verifique que la gramática esté correctamente definida y que su versión de Python sea 3.8 o superior.
+---
+
+## Resolución de problemas:
+### Error al cargar la gramática:
+
+Verifique que la gramática esté correctamente definida y que su versión de **Python sea 3.8 o superior**.
 Archivo de entrada no encontrado:
 
-Asegúrese de que el archivo .lpp exista y su ruta sea correcta.
-Falta de visualización del árbol sintáctico:
+Asegúrese de que el archivo `.lpp` exista y su ruta sea correcta.
+### Falta de visualización del árbol sintáctico:
 
 Verifique que las bibliotecas pydot y graphviz estén instaladas y configuradas correctamente.
-Créditos
+
+---
+
+## Créditos
 Este proyecto ha sido desarrollado por:
 
-Juan Diego Ruiz B.
-Juan Camilo Marín H.
-Luisa López
-Agradecimientos especiales a Mochi. El proyecto se encuentra bajo la Licencia MIT.
+   - Juan Diego R.B.
+   - Juan Camilo Marín H.
+   - Luisa López
+Agradecimientos especiales a *Mochi*. El proyecto se encuentra bajo la **Licencia MIT**.
 
-Licencia
+---
+
+## Licencia
 Este software está licenciado bajo la Licencia MIT, lo que permite su uso, distribución y modificación de forma libre, siempre y cuando se reconozca la autoría original.
