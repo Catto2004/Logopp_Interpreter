@@ -139,7 +139,9 @@ Este proyecto ha sido desarrollado por:
    - Juan Camilo Marín H.
    - Luisa López
 
-Agradecimientos especiales a *Mochi*. El proyecto se encuentra bajo la **Licencia MIT**.
+Agradecimientos especiales a *Mochi*. 
+
+El proyecto se encuentra bajo la **Licencia MIT**.
 
 ---
 
